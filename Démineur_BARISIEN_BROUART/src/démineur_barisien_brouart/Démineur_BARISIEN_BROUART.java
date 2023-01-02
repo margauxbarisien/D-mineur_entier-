@@ -2,6 +2,7 @@
 package démineur_barisien_brouart;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +34,7 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
     int vies =3;//initialisation du nbr de vies
     int[] nombres = new int[lignes * colonnes];
     JButton[] boutons = new JButton[lignes * colonnes];//chaque cellule devient un bouton 
-    boolean[] clickdone = new boolean[lignes * colonnes];
+    boolean[] caseCliquée = new boolean[lignes * colonnes];
     JMenuItem nouvellePartie = new JMenuItem("new game");//bouton pour faire une nouvelle partie 
     JMenuItem menuOptions = new JMenuItem("options");//bouton pour changer la grille de jeu 
     JLabel mineLabel = new JLabel("mines: " + nbMines + " marquées: 0");//affichage nbr mines totales et trouvées
@@ -136,6 +137,23 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
         }
     }
  
+      public void setupI() {
+        for (int x = 0; x < lignes; x++) {
+            for (int y = 0; y < colonnes; y++) {
+                mines[(lignes * y) + x] = false;
+                caseCliquée[(lignes * y) + x] = false;
+                caseNonCliquée[(lignes * y) + x] = true;
+                boutons[(lignes * y) + x] = new JButton();
+                boutons[(lignes * y) + x].setPreferredSize(new Dimension(
+                        50, 50)); //dimensionnement cellule de grille
+                //couleur ?
+                boutons[(lignes * y) + x].addActionListener(this);
+                boutons[(lignes * y) + x].addMouseListener(this);
+            }
+        }
+        placerMines();//les mines se placent sur la grille
+        placerNombres();//les nbr aussi
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -166,9 +184,7 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    private void setupI() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+
  
     }
     
