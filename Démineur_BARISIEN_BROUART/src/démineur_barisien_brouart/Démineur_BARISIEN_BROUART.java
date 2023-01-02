@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -26,8 +27,10 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
     int lignes = 10;
     int colonnes = 10;
     int nbMines = 10;//initialisation d'une grille de jeu 10x10 avec 10 mines
+    int nbKits = 1;
     GridLayout layout = new GridLayout(lignes, colonnes);//création grille en interface
     boolean[] mines = new boolean[lignes * colonnes];
+    boolean[] kits = new boolean[lignes* colonnes];
     boolean[] caseNonCliquée = new boolean[lignes * colonnes];
     boolean perdu = false;
     boolean gagné = false;
@@ -139,7 +142,15 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
     }
 
     public void placerKits() {
-
+        int kitstot = nbKits;
+        while (kitstot > 0) {
+            int x = (int) Math.floor(Math.random() * lignes);
+            int y = (int) Math.floor(Math.random() * colonnes);//placer aléatoirement des kits dans les lignes et colonnes de la grille
+            if (kits[(lignes * y) + x] == false) {
+                kits[(lignes * y) + x] = true;//test s'il y a déjà un kit sur la case
+                kitstot--;//réduit le compteur de mines qu'il reste à placer
+            }
+        }
     }
 
     public void setupI() {
@@ -198,7 +209,43 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
         perdu = false;
         mineLabel.setText("mines: " + nbMines + " marquées: 0");
     }
+public static void main(String[] args) {
+        new Démineur_BARISIEN_BROUART();
+    }
 
+public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == menuOptions) {
+            lignes = Integer.parseInt((String) JOptionPane.showInputDialog(
+                    this, "Lignes", "Lignes", JOptionPane.PLAIN_MESSAGE, null,
+                    null, 10));
+            colonnes = Integer.parseInt((String) JOptionPane.showInputDialog(
+                    this, "Colonnes", "Colonnes", JOptionPane.PLAIN_MESSAGE,
+                    null, null, 10));
+            nbMines = Integer.parseInt((String) JOptionPane.showInputDialog(this, "Mines", "Mines",
+                    JOptionPane.PLAIN_MESSAGE, null, null, 10));
+            nbKits = Integer.parseInt((String) JOptionPane.showInputDialog(
+                    this, "Kits de déminage", "Kits de déminage", JOptionPane.PLAIN_MESSAGE, null, null, 1));
+            setupI2();
+        }
+        if (!gagné) {
+            for (int x = 0; x < lignes; x++) {
+                for (int y = 0; y < colonnes; y++) {
+                    if (e.getSource() == buttons[(lignes * y) + x]
+                            && !won && clickable[(lignes * y) + x]) {
+                        doCheck(x, y);
+                        break;
+                    }
+                }
+            }
+        }
+        if (e.getSource() == newGameButton) {
+            setup();
+            won = false;
+            return;
+ 
+        }
+        checkWin();
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
