@@ -69,6 +69,73 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
             }
         }
     }
+    
+    public void placerNombres() {
+        for (int x = 0; x < lignes; x++) {
+            for (int y = 0; y < colonnes; y++) {
+                int cases = (lignes * y) + x;
+                if (mines[cases]==false) {
+                    nombres[cases] = 0;
+                    continue;//test si mine sur case
+                }
+                int compteur = 0;//initialisation du compteur de chiffre affiché
+                boolean g = (x - 1) >= 0;
+                boolean d = (x + 1) < lignes;
+                boolean h = (y - 1) >= 0;
+                boolean b = (y + 1) < colonnes;//initialisation des cases adjacentes 
+                int gauche = (lignes * (y)) + (x - 1);
+                int droite = (lignes * (y)) + (x + 1);
+                int haut = (lignes * (y - 1)) + (x);
+                int hautgauche = (lignes * (y - 1)) + (x - 1);
+                int hautdroit = (lignes * (y - 1)) + (x + 1);
+                int bas = (lignes * (y + 1)) + (x);
+                int basgauche = (lignes * (y + 1)) + (x - 1);
+                int basdroite = (lignes * (y + 1)) + (x + 1);//initialisation des diagonales
+                if (h) {
+                    if (mines[haut]) {
+                        compteur++;
+                    }
+                    if (g) {
+                        if (mines[hautgauche]) {
+                            compteur++;
+                        }
+                    }
+                    if (d) {
+                        if (mines[hautdroit]) {
+                            compteur++;
+                        }
+                    }
+                }
+                if (b) {
+                    if (mines[bas]) {
+                        compteur++;
+                    }
+                    if (g) {
+                        if (mines[basgauche]) {
+                            compteur++;
+                        }
+                    }
+                    if (d) {
+                        if (mines[basdroite]) {
+                            compteur++;
+                        }
+                    }
+                }
+                if (g) {
+                    if (mines[gauche]) {
+                        compteur++;
+                    }
+                }
+                if (d) {
+                    if (mines[droite]) {
+                        compteur++;//on incrémente le compteur à chaque fois qu'une mine se trouve à coté de la case 
+                    }
+                }
+                nombres[cases] = compteur;
+            }
+        }
+    }
+ 
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
