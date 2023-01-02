@@ -58,6 +58,17 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
         this.pack();
         this.setVisible(true);
     }
+    public void placerMines() {
+        int minestot = nbMines;
+        while (minestot > 0) {
+            int x = (int) Math.floor(Math.random() * lignes);
+            int y = (int) Math.floor(Math.random() * colonnes);//placer aléatoirement des mines dans les lignes et colonnes de la grille
+            if (mines[(lignes * y) + x]==false) {
+                mines[(lignes * y) + x] = true;//test s'il y a déjà une mine sur la case
+                minestot--;//réduit le compteur de mines qu'il reste à placer
+            }
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
