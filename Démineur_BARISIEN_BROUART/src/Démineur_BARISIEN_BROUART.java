@@ -401,19 +401,8 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
             JOptionPane.showMessageDialog(null,
                     "Vous avez perdu, dommage", "partie perdante",
                     JOptionPane.ERROR_MESSAGE);//affichage de message pour dire que la partie est perdue
-            vies=3;
+
             setup();
         }
     }
 }
-     //   public void placerKits() {
-   //     int kitstot = nbKits;
-     //   while (kitstot > 0) {
-       //     int x = (int) Math.floor(Math.random() * lignes);
-         //   int y = (int) Math.floor(Math.random() * colonnes);//placer aléatoirement des kits dans les lignes et colonnes de la grille
-//            if (kits[(lignes * y) + x] == false) {
-  //              kits[(lignes * y) + x] = true;//test s'il y a déjà un kit sur la case
-    //            kitstot--;//réduit le compteur de mines qu'il reste à placer
-     //       }
-   //     }
-  //  }
