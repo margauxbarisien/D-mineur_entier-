@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  */
 public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener,
         MouseListener {
- 
+
     int lignes = 10;
     int colonnes = 10;
     int nbMines = 10;//initialisation d'une grille de jeu 10x10 avec 10 mines
@@ -31,7 +31,7 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
     boolean[] caseNonCliquée = new boolean[lignes * colonnes];
     boolean perdu = false;
     boolean gagné = false;
-    int vies =3;//initialisation du nbr de vies
+    int vies = 3;//initialisation du nbr de vies
     int[] nombres = new int[lignes * colonnes];
     JButton[] boutons = new JButton[lignes * colonnes];//chaque cellule devient un bouton 
     boolean[] caseCliquée = new boolean[lignes * colonnes];
@@ -59,23 +59,24 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
         this.pack();
         this.setVisible(true);
     }
+
     public void placerMines() {
         int minestot = nbMines;
         while (minestot > 0) {
             int x = (int) Math.floor(Math.random() * lignes);
             int y = (int) Math.floor(Math.random() * colonnes);//placer aléatoirement des mines dans les lignes et colonnes de la grille
-            if (mines[(lignes * y) + x]==false) {
+            if (mines[(lignes * y) + x] == false) {
                 mines[(lignes * y) + x] = true;//test s'il y a déjà une mine sur la case
                 minestot--;//réduit le compteur de mines qu'il reste à placer
             }
         }
     }
-    
+
     public void placerNombres() {
         for (int x = 0; x < lignes; x++) {
             for (int y = 0; y < colonnes; y++) {
                 int cases = (lignes * y) + x;
-                if (mines[cases]==false) {
+                if (mines[cases] == false) {
                     nombres[cases] = 0;
                     continue;//test si mine sur case
                 }
@@ -136,8 +137,12 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
             }
         }
     }
- 
-      public void setupI() {
+
+    public void placerKits() {
+
+    }
+
+    public void setupI() {
         for (int x = 0; x < lignes; x++) {
             for (int y = 0; y < colonnes; y++) {
                 mines[(lignes * y) + x] = false;
@@ -153,7 +158,47 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
         }
         placerMines();//les mines se placent sur la grille
         placerNombres();//les nbr aussi
+        //placerKits();
     }
+
+    public void setupI2() {
+        this.remove(p);
+        p = new JPanel();
+        layout = new GridLayout(lignes, colonnes);
+        p.setLayout(layout);
+        boutons = new JButton[lignes * colonnes];
+        mines = new boolean[lignes * colonnes];
+        caseCliquée = new boolean[lignes * colonnes];
+        caseNonCliquée = new boolean[lignes * colonnes];
+        nombres = new int[lignes * colonnes];
+        setupI();
+        for (int i = 0; i < (lignes * colonnes); i++) {
+            p.add(boutons[i]);
+        }
+        this.add(p);
+        this.pack();
+        placerMines();
+        placerNombres();
+        //placerKits();
+    }
+
+    public void setup() {
+        for (int x = 0; x < lignes; x++) {
+            for (int y = 0; y < colonnes; y++) {
+                mines[(lignes * y) + x] = false;
+                caseCliquée[(lignes * y) + x] = false;
+                caseNonCliquée[(lignes * y) + x] = true;
+                boutons[(lignes * y) + x].setEnabled(true);//désactive la case
+                boutons[(lignes * y) + x].setText("");//la case est vide (pas de mine ni de chiffre)
+            }
+        }
+        placerMines();
+        placerNombres();
+        //placerKits();
+        perdu = false;
+        mineLabel.setText("mines: " + nbMines + " marquées: 0");
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -184,8 +229,4 @@ public class Démineur_BARISIEN_BROUART extends JFrame implements ActionListener
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-
- 
-    }
-    
-
+}
